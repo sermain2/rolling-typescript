@@ -1,0 +1,13 @@
+.button {
+  background-color: var(--enabled-btn);
+  padding: 14px 60px;
+  border-radius: 12px;
+  border: none;
+  width: 280px;
+  text-align: center;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  margin: 0 auto;
+  color: var(--white);
+}

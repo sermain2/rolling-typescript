@@ -1,0 +1,54 @@
+@import "styles/animate";
+
+.select-bg-input {
+  display: none;
+}
+.select-bg-label {
+  display: inline-block;
+  width: 168px;
+  height: 168px;
+  @include card-animate;
+  @media screen and (max-width: 768px) {
+    width: 154px;
+    height: 154px;
+  }
+  border-radius: 18px;
+  background-size: cover;
+  .checked-background-opacity {
+    background-color: #ffffff57;
+  }
+  .checked-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .none-checked-background {
+      display: none;
+    }
+  }
+}
+.beige {
+  background-color: var(--rolling-bg-beige);
+}
+.purple {
+  background-color: var(--rolling-bg-purple);
+}
+.blue {
+  background-color: var(--rolling-bg-blue);
+}
+.green {
+  background-color: var(--rolling-bg-green);
+}
+.first {
+  background-image: var(--first-url);
+}
+.second {
+  background-image: var(--second-url);
+}
+.third {
+  background-image: var(--third-url);
+}
+.fourth {
+  background-image: var(--fourth-url);
+}

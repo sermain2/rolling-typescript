@@ -1,0 +1,49 @@
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray200);
+  padding-bottom: 16px;
+
+  .createdAt {
+    color: var(--gray400);
+  }
+}
+.content-wrapper {
+  margin-top: 16px;
+
+  .content {
+    height: 240px;
+    overflow: auto;
+    @media screen and (max-width: 768px) {
+      height: 100px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background: inherit;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background-color: var(--gray300);
+
+      &:hover {
+        background-color: var(--gray400);
+      }
+    }
+    &::-webkit-scrollbar-track {
+      background: inherit;
+    }
+  }
+}
+
+.button-wrapper {
+  width: 100%;
+  margin-top: 24px;
+
+  .close-button {
+    display: block;
+    margin: 0 auto;
+  }
+}

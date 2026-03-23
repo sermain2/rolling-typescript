@@ -1,0 +1,37 @@
+@import "styles/button";
+
+.drop-down {
+  position: relative;
+
+  .menus {
+    border-radius: 8px;
+    padding: 10px 1px;
+    background-color: var(--white);
+    border: 1px solid var(--gray200);
+    box-shadow: 0px 2px 12px 0px var(--shadow);
+
+    position: absolute;
+    top: 46px;
+    right: 0;
+    z-index: 2;
+  }
+
+  .menu {
+    @include btn-white;
+    width: 138px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: default;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .menu:nth-child(1) {
+    border-bottom: 1px solid var(--gray200);
+  }
+}
+
+.hidden {
+  display: none;
+}

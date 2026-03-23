@@ -1,0 +1,110 @@
+$bold: 700;
+$regular: 400;
+
+/* NOTE - 처음 생성 시 사용
+ * font-size,
+ * font-weight: 기본값 regular이므로 bold일 때만 명시)
+ */
+@mixin font($size, $weight: $regular) {
+  font: inherit;
+  font-size: 100%;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: 1.5;
+}
+// NOTE - 반응형에서 font-size 바꾸고 싶을 때 사용
+@mixin size($size) {
+  font-size: $size;
+}
+
+/* NOTE - 반응형 폰트 정의
+ * font-{PC}-{태블릿}-{모바일} 로 명명, 내림차순 정렬
+ */
+
+.font-28-28-18-bold {
+  @include font(28px, $bold);
+  @media screen and (max-width: 768px) {
+    @include size(18px);
+  }
+}
+
+.font-24-24-24-bold {
+  @include font(24px, $bold);
+}
+
+.font-24-24-18-bold {
+  @include font(24px, $bold);
+  @media screen and (max-width: 768px) {
+    @include size(18px);
+  }
+}
+
+.font-20-20-20 {
+  @include font(20px);
+}
+
+.font-20-20-18 {
+  @include font(20px);
+  @media screen and (max-width: 768px) {
+    @include size(18px);
+  }
+}
+
+.font-20-20-16-bold {
+  @include font(20px, $bold);
+  @media screen and (max-width: 768px) {
+    @include size(16px);
+  }
+}
+
+.font-18-18-18 {
+  @include font(18px);
+}
+
+.font-18-18-15 {
+  @include font(18px);
+  @media screen and (max-width: 768px) {
+    @include size(15px);
+  }
+}
+
+.font-16-16-16 {
+  @include font(16px);
+}
+
+.font-16-16-14 {
+  @include font(16px);
+  @media screen and (max-width: 768px) {
+    @include size(14px);
+  }
+}
+
+.font-14-14-14 {
+  @include font(14px);
+}
+
+.font-14-14-14-bold {
+  @include font(14px, $bold);
+}
+
+.font-12-12-12 {
+  @include font(12px);
+}
+
+/* font family 설정 */
+
+.font-pretendard {
+  font-family: "Pretendard";
+}
+
+.font-noto-sans {
+  font-family: "Noto Sans KR";
+}
+
+.font-nanum-myeongjo {
+  font-family: "Nanum Myeongjo";
+}
+
+.font-nanum-handletter {
+  font-family: "Handletter";
+}

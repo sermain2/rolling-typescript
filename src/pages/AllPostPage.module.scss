@@ -1,0 +1,76 @@
+.card-section {
+  position: relative;
+  max-width: 1200px;
+  padding: 64px 0;
+  margin: 0 auto;
+
+  @media screen and (max-width: 1248px) {
+    margin: 0 24px;
+    padding: 32px 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: 0 20px;
+  }
+
+  height: fit-content;
+  min-height: 1000px;
+}
+
+.card-list {
+  width: 100%;
+
+  display: grid;
+  gap: 28px 24px;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media screen and (max-width: 1248px) {
+    gap: 28px 24px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 28px 24px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 520px) {
+    width: 300px;
+    margin: 0 auto;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.observer {
+  height: 10px;
+  margin-top: 40px;
+}
+.search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  input {
+    outline: none;
+    border: 1px solid var(--gray300);
+    padding: 12px 20px;
+    border-radius: 8px 0 0 8px;
+    width: 500px;
+    min-width: 236px;
+    transition: all 0.5s ease-out;
+    @media screen and (max-width: 768px) {
+      width: 236px;
+    }
+  }
+  .search-button {
+    padding: 12px 12px;
+    border-radius: 0 8px 8px 0;
+    &:focus,
+    &:active {
+      background-color: var(--enabled-btn);
+    }
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

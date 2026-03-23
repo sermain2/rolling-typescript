@@ -1,0 +1,205 @@
+@import url("reset.css");
+
+@font-face {
+  font-family: "Handletter";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Handletter.woff")
+    format("woff");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+#root {
+  margin: 0 auto;
+}
+
+/* 컬러 팔레트 */
+:root {
+  --primary-color: #b57edc;
+  --delete-btn-color: #e985a4;
+  --error-red: #dc3a3a;
+  --black: #000000;
+  --white: #ffffff;
+  --surface: #fff6ffcc;
+  --shadow: #00000014;
+
+  /* button */
+  --enabled-btn: #b57edc;
+  --disabled-btn: #cccccc;
+  --hover-btn: #9a69bf;
+  --pressed-btn: #7f4ca5;
+
+  /* rollin-paper background color */
+  --rolling-bg-purple: #fce1e4;
+  --rolling-bg-beige: #fcfaf2;
+  --rolling-bg-blue: #daeaf6;
+  --rolling-bg-green: #ddedea;
+
+  --gray900: #181818;
+  --gray800: #2b2b2b;
+  --gray700: #3a3a3a;
+  --gray600: #4a4a4a;
+  --gray500: #555555;
+  --gray400: #999999;
+  --gray300: #cccccc;
+  --gray200: #eeeeee;
+  --gray100: #f6f6f6;
+
+  --purple900: #5603a7;
+  --purple800: #6e0ad1;
+  --purple700: #861dee;
+  --purple600: #9935ff;
+  --purple500: #ab57ff;
+  --purple400: #c894fd;
+  --purple300: #dcb9ff;
+  --purple200: #ecd9ff;
+  --purple100: #f8f0ff;
+
+  --green500: #2ba600;
+  --green400: #60cf37;
+  --green300: #9be282;
+  --green200: #d0f5c3;
+  --green100: #e4fbdc;
+
+  --blue500: #00a2fe;
+  --blue400: #34b9ff;
+  --blue300: #7cd2ff;
+  --blue200: #b1e4ff;
+  --blue100: #e2f5ff;
+
+  --beige500: #ff8832;
+  --beige400: #ffc583;
+  --beige300: #ffc583;
+  --beige200: #ffe2ad;
+  --beige100: #fff0d6;
+
+  --gray-bolder: #e3e3e3;
+  --gray-bolder-dark: #b6b6b6;
+  --divider: #0000001f;
+  --emoji-bg: #0000008a;
+  /* font-weight */
+  --bold: 700;
+  --regular: 400;
+
+  /* 이미지 url */
+  --first-url: url("https://i.pinimg.com/originals/65/ed/0d/65ed0d5ca1be4dfc8fb3427a14acfca9.jpg");
+  --second-url: url("https://i.pinimg.com/564x/6c/42/ba/6c42ba5d285e0554e580b255f0d6b4dc.jpg");
+  --third-url: url("https://i.pinimg.com/originals/a8/5f/c8/a85fc84c65c7ad9471b06c31f7a30061.jpg");
+  --fourth-url: url("https://i.pinimg.com/originals/ff/59/23/ff592396e3bc5fd4a0c91d14eccc78fd.jpg");
+}
+
+.font-28-bold {
+  font-size: 28px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-24-bold {
+  font-size: 24px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-24 {
+  font-size: 24px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-20-bold {
+  font-size: 20px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-20 {
+  font-size: 20px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-18-bold {
+  font-size: 18px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-18 {
+  font-size: 18px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-16-bold {
+  font-size: 16px;
+  font-weight: var(--bold);
+  line-height: 26px;
+}
+
+.font-16 {
+  font-size: 16px;
+  font-weight: var(--regular);
+  line-height: 26px;
+}
+
+.font-15-bold {
+  font-size: 15px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-15 {
+  font-size: 15px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-14-bold {
+  font-size: 14px;
+  font-weight: var(--bold);
+  line-height: 1.5;
+}
+
+.font-14 {
+  font-size: 14px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-12 {
+  font-size: 12px;
+  font-weight: var(--regular);
+  line-height: 1.5;
+}
+
+.font-pretendard {
+  font-family: "Pretendard";
+}
+
+.font-noto-sans {
+  font-family: "Noto Sans KR";
+}
+
+.font-nanum-myeongjo {
+  font-family: "Nanum Myeongjo";
+}
+
+.font-nanum-handletter {
+  font-family: "Handletter";
+}

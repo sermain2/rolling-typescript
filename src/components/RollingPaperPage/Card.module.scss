@@ -1,0 +1,117 @@
+@import "styles/animate";
+
+article.card {
+  padding: 24px;
+  // NOTE pointer 추가
+  cursor: pointer;
+}
+
+.card {
+  @include card-animate;
+  width: 100%;
+  height: 280px;
+  border-radius: 16px;
+  background-color: var(--white);
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08), 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 1248px) {
+    height: 284px;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 230px;
+  }
+
+  // NOTE
+  .header {
+    margin-bottom: 16px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--gray200);
+  }
+
+  main {
+    width: 100%;
+    margin: 16px 0;
+
+    color: var(--gray600);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    @media screen and (max-width: 768px) {
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  footer {
+    color: var(--gray400);
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+  }
+}
+
+.card-first {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    transform: scale(1);
+    transition-duration: 0s;
+    img {
+      transition: all 0.5s;
+      transform: rotate(180deg);
+    }
+  }
+
+  .add-button {
+    width: 56px;
+    height: 56px;
+    padding: 16px;
+    border-radius: 100px;
+    background-color: var(--gray500);
+
+    &:disabled {
+      background-color: var(--gray300);
+    }
+
+    &:hover {
+      background-color: var(--gray600);
+    }
+
+    &:focus,
+    &:active {
+      background-color: var(--gray700);
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.cursor {
+  cursor: default;
+  // NOTE - 이 속성으로도 클릭 막을 수 있음
+  //pointer-events: none;
+}
+
+.checkbox {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.checked-card {
+  opacity: 0.7;
+}

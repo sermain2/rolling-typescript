@@ -1,0 +1,41 @@
+.sender-info {
+  // NOTE height가 아닌 다른 요소에 margin을 주어 간격 조정으로 변경
+  display: flex;
+  gap: 14px;
+  position: relative;
+
+  .profile-image {
+    width: 56px;
+    height: 56px;
+    border-radius: 100px;
+    border: 1px solid var(--gray200);
+  }
+
+  .badge {
+    width: fit-content;
+    height: fit-content;
+    margin-top: 6px;
+    padding: 0 8px;
+    border-radius: 4px;
+
+    &.acquaintance {
+      background-color: var(--beige100);
+      color: var(--beige500);
+    }
+
+    &.friend {
+      background-color: var(--blue100);
+      color: var(--blue500);
+    }
+
+    &.coworker {
+      background-color: var(--purple100);
+      color: var(--purple600);
+    }
+
+    &.family {
+      background-color: var(--green100);
+      color: var(--green500);
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.reaction-box {
+  display: flex;
+
+  gap: 8px;
+  @media screen and (max-width: 768px) {
+    gap: 4px;
+  }
+
+  .emoji-box {
+    color: var(--white);
+    border-radius: 32px;
+    background-color: var(--emoji-bg);
+    cursor: default;
+
+    padding: 8px 12px;
+    display: flex;
+    gap: 2px;
+
+    @media screen and (max-width: 768px) {
+      padding: 6px 8px;
+    }
+    
+  }
+
+  .non-reacted {
+    width: max-content;
+  }
+}
+
+.list {
+  .non-reacted {
+    margin-top: 10px;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 2px;
+    }
+  }
+}

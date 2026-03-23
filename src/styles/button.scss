@@ -1,0 +1,109 @@
+@mixin btn-large {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  border-radius: 12px;
+}
+
+@mixin btn-small {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  border-radius: 6px;
+}
+
+@mixin btn-basic {
+  background-color: var(--enabled-btn);
+  border: none;
+
+  text-align: center;
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--hover-btn);
+  }
+
+  &:focus,
+  &:active {
+    background-color: var(--pressed-btn);
+  }
+
+  &:disabled {
+    background-color: var(--disabled-btn);
+  }
+}
+
+@mixin btn-white {
+  background-color: var(--white);
+
+  &:hover {
+    background-color: var(--gray100);
+  }
+
+  &:active {
+    background-color: var(--gray200);
+  }
+
+  &:disabled {
+    background-color: var(--disabled-btn);
+  }
+}
+
+@mixin btn-pink {
+  background-color: var(--delete-btn-color);
+
+  &:hover {
+    background-color: #ec6a93;
+  }
+
+  &:active {
+    background-color: #e96891;
+  }
+
+  &:disabled {
+    background-color: var(--disabled-btn);
+  }
+}
+
+.button {
+  @include btn-basic;
+
+  &.align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* size */
+  &.full {
+    @include btn-large;
+    width: 100%;
+  }
+
+  &.width-280 {
+    @include btn-large;
+    width: 280px;
+
+    @media screen and (max-width: 1248px) {
+      width: 100%;
+    }
+  }
+
+  &.width-120 {
+    @include btn-small;
+    width: 120px;
+  }
+
+  &.width-92 {
+    @include btn-small;
+    width: 92px;
+    @media screen and (max-width: 768px) {
+      width: 50px;
+    }
+  }
+}
+
+a.button {
+  display: inline-block;
+}

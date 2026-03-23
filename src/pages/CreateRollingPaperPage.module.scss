@@ -1,0 +1,59 @@
+@import "styles/animate";
+
+.form {
+  transition: all 0.5s ease-out;
+  max-width: 720px;
+  width: 100%;
+  margin: 57px auto 312px;
+  @media screen and (max-width: 1248px) {
+    margin: 49px auto 24px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 324px;
+    min-width: 324px;
+    margin: 30px auto 24px;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  .sender-container {
+    display: flex;
+    flex-direction: column;
+
+    .sender-input {
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--gray300);
+      outline: none;
+      margin-top: 12px;
+    }
+    .sender-input-error {
+      border: 1px solid var(--error-red);
+    }
+    .sender-input-error-msg {
+      color: var(--error-red);
+    }
+  }
+
+  .select-bg-description {
+    color: var(--gray500);
+  }
+
+  .select-bg-section {
+    .select-bg-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .select-bg-input-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 19px;
+    }
+  }
+  .submit-button {
+    @include btn-animate;
+  }
+}

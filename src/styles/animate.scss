@@ -1,0 +1,22 @@
+@mixin btn-animate {
+  transform: scale(1);
+  transition-duration: 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+    transition-duration: 0.2s;
+    @media screen and (max-width: 1248px) {
+      transform: scale(1.04);
+    }
+  }
+}
+
+@mixin card-animate {
+  transform: scale(1);
+  transition-duration: 0.2s;
+
+  &:hover {
+    transform: scale(0.95);
+    transition-duration: 0.2s;
+  }
+}

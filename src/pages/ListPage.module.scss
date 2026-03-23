@@ -1,0 +1,110 @@
+@import "styles/animate";
+
+.wrapper {
+  width: 100%;
+  position: relative;
+  margin-bottom: 24px;
+  padding: 20px 20px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  .track {
+    margin: 20px auto;
+    max-width: 1180px;
+    .top {
+      display: flex;
+      justify-content: space-between;
+
+      .all-post-button {
+        @media screen and (max-width: 768px) {
+          width: 92px;
+        }
+      }
+    }
+
+    .title {
+      margin-top: 10px;
+      margin-left: 20px;
+
+      @media screen and (max-width: 1248px) {
+        margin-left: 0;
+      }
+      @media screen and (max-width: 768px) {
+        // margin-top: 40px;
+        font-size: 20px;
+      }
+    }
+
+    .vertical-scroll {
+      visibility: hidden;
+      position: absolute;
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      overflow: auto;
+      white-space: nowrap;
+
+      &.item-1 {
+        top: 100px;
+        @media screen and (max-width: 768px) {
+          top: 100px;
+        }
+        @media screen and (max-width: 768px) {
+          top: 100px;
+        }
+      }
+
+      &.item-2 {
+        top: 450px;
+
+        @media screen and (max-width: 768px) {
+          top: 405px;
+        }
+      }
+    }
+  }
+  .btn-box {
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+  .list-button {
+    @include btn-animate;
+  }
+}
+
+@media screen and (max-width: 1248px) {
+  .empty {
+    height: 300px;
+  }
+
+  .wrapper .track .vertical-scroll {
+    visibility: visible;
+  }
+
+  .carousel {
+    display: none;
+  }
+  .list-button {
+    margin-top: 156px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .title {
+    margin-top: 40px;
+    font-size: 20px;
+  }
+  .empty {
+    height: 270px;
+  }
+  .wrapper .track .vertical-scroll {
+    visibility: visible;
+  }
+
+  .carousel {
+    display: none;
+  }
+  .link-button {
+    margin-top: 66px;
+  }
+}

@@ -1,0 +1,70 @@
+@import "styles/fonts.scss";
+
+@mixin font-style($size, $weight) {
+  font-size: $size;
+  font-weight: $weight;
+}
+
+.message-form {
+  width: 320px;
+  margin: 0 auto;
+
+  &-title {
+    @include font(28px, $bold);
+    margin-bottom: 12px;
+    margin-top: 50px;
+    display: block;
+  }
+
+  &-profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .message-form-profile-selected {
+      width: 80px;
+      height: 80px;
+      border-radius: 100px;
+    }
+  }
+
+  &-profile-options-title {
+    @include font(14px);
+    line-height: 26px;
+    color: var(--gray500);
+  }
+
+  &-profile-option {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 122px;
+    margin-left: 32px;
+  }
+
+  &-profile-preview {
+    @media screen and (min-width: 767px) {
+      width: 56px;
+      height: 56px;
+    }
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &-profile-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    @media screen and (min-width: 767px) {
+      gap: 4px;
+    }
+  }
+}

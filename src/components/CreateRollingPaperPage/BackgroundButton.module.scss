@@ -1,0 +1,22 @@
+.select-bg-container {
+  display: flex;
+  margin: 24px 0 45px;
+  input {
+    display: none;
+  }
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 122px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--gray100);
+  }
+  input[type="radio"]:checked + label {
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: var(--bold);
+  }
+}

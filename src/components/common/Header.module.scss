@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import "styles/button";
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+.header {
+  width: 100%;
+  border-bottom: 1px solid #ededed;
+  @media screen and (max-width: 1248px) {
+    padding: 0 24px;
+  }
+
+  .logo-button-container {
+    display: flex;
+    width: 1200px;
+    height: 64px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    @media screen and (max-width: 1248px) {
+      width: 100%;
+      margin: 0;
+    }
+
+    .logo-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--black);
+
+      .logo-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: var(--bold);
+        font-style: normal;
+        font-size: 20px;
+      }
+    }
+
+    .post-button {
+      @include btn-white;
+      color: var(--gray900);
+      width: 157px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 1px solid var(--disabled-btn);
+      @media screen and (max-width: 768px) {
+        width: 142px;
+        min-width: 142px;
+      }
+    }
+  }
+}
