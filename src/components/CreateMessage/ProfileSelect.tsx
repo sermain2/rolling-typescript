@@ -1,16 +1,20 @@
 import React from "react";
-import styles from "./ProfileSelect.module.scss"; // import CSS module
+import styles from "./ProfileSelect.module.scss";
 import { PROFILES } from "constants/postMessagePage";
 
-const ProfileSelect = ({ onProfileSelect, selectedProfile }) => {
-  
+interface ProfileSelectProps {
+  onProfileSelect: (src: string) => void;
+  selectedProfile: string;
+}
+
+const ProfileSelect = ({ onProfileSelect, selectedProfile }: ProfileSelectProps) => {
   return (
     <div className={styles["message-form-profile"]}>
       <span className={styles["message-form-title"]}>프로필 이미지</span>
       <div className={styles["message-form-profile-container"]}>
         <img
           className={styles["message-form-profile-selected"]}
-          src={selectedProfile} 
+          src={selectedProfile}
           alt="선택된 프로필 이미지"
         />
         <div className={styles["message-form-profile-options"]}>
@@ -23,7 +27,7 @@ const ProfileSelect = ({ onProfileSelect, selectedProfile }) => {
                 key={i}
                 className={styles["message-form-profile-preview"]}
                 src={profile.src}
-                alt={profile.alt}
+                alt={profile.filename}
                 onClick={() => onProfileSelect(profile.src)}
               />
             ))}

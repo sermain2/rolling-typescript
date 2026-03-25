@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "pages/PostMessagePage.module.scss";
 import CustomDropdown from "components/CreateMessage/CustomDropdown";
 import ProfileSelect from "components/CreateMessage/ProfileSelect";
@@ -14,34 +14,41 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { postMessage } from "apis/recipients";
 import ReactQuill from "react-quill";
-import { useRef } from "react";
+
+// 폼 데이터 타입
+interface MessageFormData {
+  team: string;
+  recipientId: string | undefined;
+  sender: string;
+  relationship: string;
+  content: string;
+  font: string;
+  profileImageURL: string;
+}
 
 export default function PostMessageForm() {
-  const [senderValue, setSenderValue] = useState("");
-  const [senderError, setSenderError] = useState(false);
-  const [relationship, setRelationship] = useState("지인");
+  const [senderValue, setSenderValue] = useState<string>("");
+  const [senderError, setSenderError] = useState<boolean>(false);
+  const [relationship, setRelationship] = useState<string>("지인");
+  const [editorError, setEditorError] = useState<boolean>(false);
+  const [selectedFont, setSelectedFont] = useState<string>("Noto Sans");
+  const [selectedProfile, setSelectedProfile] = useState<string>(DEFAULT_PROFILE);
+  const [editorContent, setEditorContent] = useState<string>("");
 
-  const [editorError, setEditorError] = useState(false);
-  const [selectedFont, setSelectedFont] = useState("Noto Sans");
-  const [selectedProfile, setSelectedProfile] = useState(DEFAULT_PROFILE);
-  const [editorContent, setEditorContent] = useState("");
+  const quillRef = useRef<ReactQuill>(null);
 
-  const quillRef = useRef(null);
-
-  // NOTE - id 받아오는 작업
-  const { postId } = useParams();
+  const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
 
-  const handleNameChange = (e) => {
-    const name = e.target.value.trim(); //NOTE 공백을 제거하여 입력값 확인
+const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value.trim();
     setSenderValue(name);
-    // NOTE - 1글자 이상 입력 중 에러 메세지 사라지도록 처리
     if (name.length > 0) {
       setSenderError(false);
     }
   };
 
-  const handleEditorChange = (content, delta, source, editor) => {
+ const handleEditorChange = (content: string, delta: unknown, source: unknown, editor: ReactQuill.UnprivilegedEditor) => {
     const currentContent = editor.getHTML();
     setEditorContent(currentContent);
     const currentContentText = editor.getText().trim();
@@ -57,8 +64,10 @@ export default function PostMessageForm() {
       setSenderError(true);
     }
   };
-  const handleContentFocusOut = () => {
-    const editor = quillRef.current.getEditor();
+
+const handleContentFocusOut = () => {
+    const editor = quillRef.current?.getEditor();
+    if (!editor) return;
     const currentContent = editor.getText().trim();
     if (currentContent === "") {
       setEditorError(true);
@@ -66,18 +75,17 @@ export default function PostMessageForm() {
       setEditorError(false);
     }
   };
-
-  const handleProfileSelect = (src) => {
+const handleProfileSelect = (src: string) => {
     setSelectedProfile(src);
   };
 
   const isButtonDisabled =
     !editorContent || !senderValue || senderError || editorError;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = {
+    const formData: MessageFormData = {
       team: "6-1",
       recipientId: postId,
       sender: senderValue,
@@ -89,7 +97,7 @@ export default function PostMessageForm() {
 
     try {
       await postMessage(postId, formData);
-      navigate(`/post/${postId}`); // NOTE 페이지 이동
+      navigate(`/post/${postId}`);
     } catch (error) {
       console.error(error);
     }
@@ -118,7 +126,7 @@ export default function PostMessageForm() {
           />
           {senderError && (
             <p className={styles["form-error"]}>값을 입력해주세요.</p>
-          )}{" "}
+          )}
         </div>
 
         <ProfileSelect
@@ -132,7 +140,7 @@ export default function PostMessageForm() {
           </label>
           <CustomDropdown
             props={Object.keys(MEMBER_CLASS_NAME)}
-            onSelect={(value) => setRelationship(value)}
+            onSelect={(value: string) => setRelationship(value)}
           />
         </div>
 
@@ -162,7 +170,7 @@ export default function PostMessageForm() {
           <span className={styles["message-form-title"]}>폰트 선택</span>
           <CustomDropdown
             props={Object.keys(FONT_CLASS_NAME)}
-            onSelect={(value) => setSelectedFont(value)}
+            onSelect={(value: string) => setSelectedFont(value)}
           />
         </div>
         <button

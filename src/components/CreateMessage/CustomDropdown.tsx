@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import ArrowIcon from "assets/icons/arrow_down.svg";
 import styles from "pages/PostMessagePage.module.scss";
 
+interface CustomDropdownProps {
+  props: string[];
+  onSelect: (value: string) => void;
+}
 
-export default function CustomDropdown({ props, onSelect }) {
-  const [selected, setSelected] = useState(
+export default function CustomDropdown({ props, onSelect }: CustomDropdownProps) {
+  const [selected, setSelected] = useState<string>(
     props && props.length ? props[0] : "No items available"
   );
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState<boolean>(false);
 
   if (!props || props.length === 0) {
     return <p>{selected}</p>;
   }
 
-  const handleChange = (e) => {
-    const { innerText } = e.target;
+  const handleChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    const innerText = (e.target as HTMLDivElement).innerText;
     setSelected(innerText);
-    onSelect(innerText === "" ? null : innerText);
+    onSelect(innerText === "" ? "" : innerText);
   };
 
   const handleToggle = () => {
@@ -37,13 +41,11 @@ export default function CustomDropdown({ props, onSelect }) {
         }`}
         onClick={handleChange}
       >
-        {props.map((item, index) => {
-          return (
-            <div className={styles["message-form-drop-down-menu"]} key={index}>
-              {item}
-            </div>
-          );
-        })}
+        {props.map((item, index) => (
+          <div className={styles["message-form-drop-down-menu"]} key={index}>
+            {item}
+          </div>
+        ))}
       </div>
     </div>
   );
