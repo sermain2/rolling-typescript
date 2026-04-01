@@ -7,26 +7,38 @@ import {
   PRETENDARD,
   NANUM_MYEONGJO,
   NANUM_HANDLETTER,
-} from "constants";
+} from "constants/index";
 
-export const MEMBER_CLASS_NAME = {
+// 타입 정의
+export interface Profile {
+  src: string;
+  filename: string;
+}
+
+export interface EditorStyles {
+  height: string;
+}
+
+// 상대와의 관계
+export const MEMBER_CLASS_NAME: Record<string, string> = {
   [ACQUAINTANCE]: "지인",
   [FRIEND]: "친구",
   [COWORKER]: "동료",
   [FAMILY]: "가족",
 };
 
-export const FONT_CLASS_NAME = {
+// 폰트
+export const FONT_CLASS_NAME: Record<string, string> = {
   [NOTO_SANS]: "Noto Sans",
   [PRETENDARD]: "Pretendard",
   [NANUM_MYEONGJO]: "나눔명조",
   [NANUM_HANDLETTER]: "나눔손글씨 손편지체",
 };
 
-export const DEFAULT_PROFILE =
+export const DEFAULT_PROFILE: string =
   "https://cdn.icon-icons.com/icons2/317/PNG/512/profile-icon_34378.png";
 
-export const PROFILES = [
+export const PROFILES: Profile[] = [
   {
     src: "https://cdn.icon-icons.com/icons2/1879/PNG/512/iconfinder-3-avatar-2754579_120516.png",
     filename: "avatar1.png",
@@ -75,7 +87,8 @@ export const TOOLBAR_OPTION = [
   ["bold", "italic", "underline", "strike"],
   [{ color: [] }, { background: [] }],
 ];
-export const FORMATS = [
+
+export const FORMATS: string[] = [
   "header",
   "font",
   "size",
@@ -89,12 +102,13 @@ export const FORMATS = [
   "link",
   "width",
 ];
+
 export const MODULES = {
   toolbar: {
     container: TOOLBAR_OPTION,
   },
 };
 
-export const EDITOR_STYLES = {
+export const EDITOR_STYLES: EditorStyles = {
   height: "210px",
 };

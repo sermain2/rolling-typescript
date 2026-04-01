@@ -8,10 +8,33 @@ import "styles/button.scss";
 import CardList from "components/ListPage/CardList";
 import { Link } from "react-router-dom";
 
+interface RecipientItem {
+  id: number;
+  name: string;
+  backgroundColor: string;
+  backgroundImageURL: string | null;
+  createdAt: string;
+  messageCount: number;
+  recentMessages: MessageItem[];
+  topReactions: ReactionItem[];
+}
+
+interface MessageItem {
+  id: number;
+  sender: string;
+  profileImageURL: string;
+}
+
+interface ReactionItem {
+  id: number;
+  emoji: string;
+  count: number;
+}
+
 function ListPage() {
-  const [bestItems, setBestItems] = useState([]);
-  const [recentItems, setRecentItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [bestItems, setBestItems] = useState<RecipientItem[]>([]);
+  const [recentItems, setRecentItems] = useState<RecipientItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,14 +50,21 @@ function ListPage() {
             : await getList(0, responseRecent?.count);
       } catch (error) {
         console.error("Error fetching slide items:", error);
+        return;
       }
 
       const sortedBest = responseAll.results
         .slice()
-        .sort((a, b) => b.messageCount - a.messageCount);
+        .sort(
+          (a: RecipientItem, b: RecipientItem) =>
+            b.messageCount - a.messageCount
+        );
       const sortedRecent = responseRecent.results
         .slice()
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        .sort(
+          (a: RecipientItem, b: RecipientItem) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       setBestItems(sortedBest);
       setRecentItems(sortedRecent);
       setIsLoading(false);
