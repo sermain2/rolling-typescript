@@ -67,23 +67,29 @@ export default function CreateRollingPaper() {
       setIsWriteName(true);
     }
   }, [name]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let result;
-    const data: PaperData = {
-      team: "6-1",
-      name: name,
-      backgroundColor: backgroundColor,
-      backgroundImageURL: backgroundImg,
-    };
-    try {
-      result = await postPaper(data);
-    } catch (e) {
-      return;
-    }
-    navigate(`/post/${result.id}`);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  console.log("submit 실행됨");
+  console.log("TEAM_BASE_URL:", process.env.REACT_APP_TEAM_BASE_URL);
+  console.log("name:", name);
+  
+  let result;
+  const data: PaperData = {
+    team: "6-1",
+    name: name,
+    backgroundColor: backgroundColor,
+    backgroundImageURL: backgroundImg,
   };
+  console.log("전송 데이터:", data);
+  try {
+    result = await postPaper(data);
+    console.log("결과:", result);
+  } catch (e) {
+    console.error("에러:", e);
+    return;
+  }
+  navigate(`/post/${result.id}`);
+};
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>

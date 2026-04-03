@@ -14,67 +14,93 @@ import Nav from "components/RollingPaperPage/Nav";
 import styles from "./RollingPaperPage.module.scss";
 import Loading from "components/common/Loading";
 
-function RollingPaperPage() {
-  // NOTE - id 받아오는 작업
-  const { postId } = useParams();
+interface PostInfo {
+  name: string;
+  backgroundColor: string;
+  style: { backgroundImage: string } | null;
+  messageCount: number;
+  messageProfiles: { id: number; imgURL: string }[];
+}
 
-  // NOTE - post, message, reaction, error 정보 관리
-  const [postInfo, setPostInfo] = useState({
+interface MessageItem {
+  id: number;
+  sender: string;
+  profileImageURL: string;
+  relationship: string;
+  content: string;
+  font: string;
+  createdAt: string;
+}
+
+interface MessageInfo {
+  messages: MessageItem[];
+  ids: number[];
+  count: number;
+  offset: number;
+}
+
+interface ReactionItem {
+  id: number;
+  emoji: string;
+  count: number;
+}
+
+interface CardListProps {
+  isEdit: boolean;
+  messages: MessageItem[];
+  onCheck: (id: string, isChecked: boolean) => void;
+  deleteMessageIds: number[];
+}
+
+function RollingPaperPage() {
+  const { postId } = useParams<{ postId: string }>();
+
+  const [postInfo, setPostInfo] = useState<PostInfo>({
     name: "",
     backgroundColor: "",
     style: null,
     messageCount: 0,
     messageProfiles: [],
   });
-  const [messageInfo, setMessageInfo] = useState({
+  const [messageInfo, setMessageInfo] = useState<MessageInfo>({
     messages: [],
     ids: [],
     count: 0,
     offset: 0,
   });
-  const [reactions, setReactions] = useState([]);
-  const [loadingError, setLoadingError] = useState(null);
-  const [reactionLoadingError, setReactionLoadingError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [reactions, setReactions] = useState<ReactionItem[]>([]);
+  const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const [reactionLoadingError, setReactionLoadingError] =
+    useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [deleteMessageIds, setDeleteMessageIds] = useState<number[]>([]);
+  const [isReactionHidden, setIsReactionHidden] = useState<boolean>(true);
+  const [isDropDownHidden, setIsDropDownHidden] = useState<boolean>(true);
+  const [isPickerHidden, setIsPickerHidden] = useState<boolean>(true);
 
-  // NOTE - 삭제할 메세지 id 목록
-  const [deleteMessageIds, setDeleteMessageIds] = useState([]);
-  // NOTE - 반응 목록, 이모지 피커, 드롭다운 보여줄지 여부
-  const [isReactionHidden, setIsReactionHidden] = useState(true);
-  const [isDropDownHidden, setIsDropDownHidden] = useState(true);
-  const [isPickerHidden, setIsPickerHidden] = useState(true);
-
-  // NOTE - edit 모드 여부 확인
   const location = useLocation();
   const isEdit = location.pathname.includes("/edit");
-
-  // NOTE - 페이지 이동
   const navigate = useNavigate();
 
-  // NOTE - 토스트 메세지 출력
   const notifyURLCopy = useCallback(
     () => toast.success("URL이 복사 되었습니다.", TOAST_DEFAULT_SETTING),
     []
   );
 
   const handleCheck = useCallback(
-    (id, isChecked) => {
-      // NOTE - type of id -> String
-      // NOTE - input의 id 속성에  Number 타입을 속성값으로 주면 자동으로 String으로 형변환됨
+    (id: string, isChecked: boolean) => {
       const numberId = Number(id);
       if (isChecked) {
         setDeleteMessageIds((prev) => [...prev, numberId]);
       } else {
-        setDeleteMessageIds(
-          deleteMessageIds.filter((item) => item !== numberId)
-        );
+        setDeleteMessageIds(deleteMessageIds.filter((item) => item !== numberId));
       }
     },
     [deleteMessageIds]
   );
 
   const handleCheckAll = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.checked) {
         setDeleteMessageIds(messageInfo.messages.map((item) => item.id));
       } else {
@@ -84,24 +110,18 @@ function RollingPaperPage() {
     [messageInfo.messages]
   );
 
-  // NOTE - post 값 받아오는 함수
   const handlePostInfoLoad = useCallback(async () => {
     let postResult;
     try {
       setLoadingError(null);
-      postResult = await getPost(postId);
+      postResult = await getPost(postId!);
     } catch (e) {
-      setLoadingError(e);
+      setLoadingError(e as Error);
       return;
     }
 
-    const {
-      name,
-      backgroundColor,
-      backgroundImageURL,
-      messageCount,
-      recentMessages,
-    } = postResult;
+    const { name, backgroundColor, backgroundImageURL, messageCount, recentMessages } =
+      postResult;
     setPostInfo({
       name,
       backgroundColor,
@@ -109,65 +129,55 @@ function RollingPaperPage() {
         ? { backgroundImage: `url(${backgroundImageURL})` }
         : null,
       messageCount,
-      messageProfiles: recentMessages.map((message) => ({
+      messageProfiles: recentMessages.map((message: MessageItem) => ({
         id: message.id,
         imgURL: message.profileImageURL,
       })),
     });
   }, [postId]);
 
-  // NOTE - message 초기값 받아오는 함수
   const handleMessageLoad = useCallback(async () => {
     let messageResult;
     try {
       setLoadingError(null);
-      messageResult = await getMessage(postId);
+      messageResult = await getMessage(postId!);
     } catch (e) {
-      setLoadingError(e);
+      setLoadingError(e as Error);
       return;
     }
 
     const { results: newMessages, count } = messageResult;
     setMessageInfo({
       messages: newMessages,
-      ids: newMessages.map((message) => message.id),
+      ids: newMessages.map((message: MessageItem) => message.id),
       count,
-      offset: newMessages.length, // NOTE - 다음에 여기부터 받으면 된다
+      offset: newMessages.length,
     });
   }, [postId]);
 
-  // NOTE - message 추가로 받아오는 함수
   const handleMoreMessageLoad = useCallback(async () => {
     let messageResult;
     try {
       setIsLoading(true);
       setLoadingError(null);
-      messageResult = await getMessage(
-        postId,
-        messageInfo.offset,
-        MESSAGE_NUM_DEFAULT
-      );
+      messageResult = await getMessage(postId!, messageInfo.offset, MESSAGE_NUM_DEFAULT);
     } catch (e) {
-      setLoadingError(e);
+      setLoadingError(e as Error);
       return;
     }
 
     setIsLoading(false);
     const { results: newMessages, count } = messageResult;
     setMessageInfo((prevInfo) => {
-      const newIds = newMessages.map((message) => message.id);
+      const newIds = newMessages.map((message: MessageItem) => message.id);
 
-      // NOTE - 메세지 순서는 일정하므로 앞에서부터 같은만큼 찾는다
       let idx = 0;
       let sameIdIdx = prevInfo.ids.indexOf(newIds[idx]);
       while (sameIdIdx >= 0 && idx++ < newIds.length) {
         sameIdIdx = prevInfo.ids.indexOf(newIds[idx++]);
       }
 
-      if (newIds.length === idx) {
-        // NOTE - 모두 일치하는 경우
-        return;
-      }
+      if (newIds.length === idx) return prevInfo;
 
       const updatedMessages = [...prevInfo.messages, ...newMessages.slice(idx)];
       return {
@@ -179,14 +189,13 @@ function RollingPaperPage() {
     });
   }, [postId, messageInfo.offset]);
 
-  // NOTE - reaction 값 받아오는 함수
   const handleReactionLoad = useCallback(async () => {
     let reactionResult;
     try {
       setReactionLoadingError(null);
-      reactionResult = await getReaction(postId);
+      reactionResult = await getReaction(postId!);
     } catch (e) {
-      setReactionLoadingError(e);
+      setReactionLoadingError(e as Error);
       return;
     }
 
@@ -202,15 +211,12 @@ function RollingPaperPage() {
     handleReactionLoad();
   }, [handlePostInfoLoad, handleMessageLoad, handleReactionLoad]);
 
-  // NOTE - 메세지 삭제하는 함수
   const handleDeleteMessage = useCallback(async () => {
     const confirmation = window.confirm(
       `${deleteMessageIds.length}개의 메세지를 삭제하시겠습니까?`
     );
-    if (!confirmation) {
-      return;
-    }
-    // NOTE -Promise 병렬 처리 : 여러 개의 비동기 작업을 동시에 처리
+    if (!confirmation) return;
+
     try {
       setLoadingError(null);
       await Promise.all(
@@ -219,35 +225,30 @@ function RollingPaperPage() {
         })
       );
     } catch (e) {
-      setLoadingError(e);
+      setLoadingError(e as Error);
       return;
     }
-    // NOTE - 삭제 후 데이터 다시 받아오는 작업
+
     handlePostInfoLoad();
     handleMessageLoad();
-    // NOTE - 삭제 후, 삭제할 메세지 배열 초기화
     setDeleteMessageIds([]);
-    // NOTE - 삭제 후, 페이지 이동
     navigate(`/post/${postId}`);
-  }, [deleteMessageIds, handleMessageLoad, navigate, postId]);
+  }, [deleteMessageIds, handleMessageLoad, handlePostInfoLoad, navigate, postId]);
 
-  // NOTE - 롤링페이퍼 삭제하는 함수
   const handleDeletePaper = useCallback(async () => {
     const confirmation = window.confirm(
       `${postInfo.name}님의 롤링페이퍼를 삭제하시겠습니까?`
     );
-    if (!confirmation) {
-      return;
-    }
+    if (!confirmation) return;
+
     try {
       setLoadingError(null);
-      await delPaper(postId);
+      await delPaper(postId!);
     } catch (e) {
-      setLoadingError(e);
+      setLoadingError(e as Error);
       return;
     }
 
-    // NOTE - 삭제 후, 페이지 이동
     navigate("/list");
   }, [navigate, postId, postInfo.name]);
 
@@ -257,41 +258,33 @@ function RollingPaperPage() {
     setIsPickerHidden(true);
   }, []);
 
-  const handleMoreReactionClick = useCallback((e) => {
+  const handleMoreReactionClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsPickerHidden(true);
     setIsDropDownHidden(true);
-    setIsReactionHidden((prevIsHidden) => !prevIsHidden);
+    setIsReactionHidden((prev) => !prev);
   }, []);
 
-  const handleEmojiButtonClick = useCallback((e) => {
+  const handleEmojiButtonClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsReactionHidden(true);
     setIsDropDownHidden(true);
-    setIsPickerHidden((prevIsHidden) => !prevIsHidden);
+    setIsPickerHidden((prev) => !prev);
   }, []);
 
-  const handleDropDownClick = useCallback((e) => {
+  const handleDropDownClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsReactionHidden(true);
     setIsPickerHidden(true);
-    setIsDropDownHidden((prevIsHidden) => !prevIsHidden);
+    setIsDropDownHidden((prev) => !prev);
   }, []);
 
   const handleObserver = useCallback(
-    (entries) => {
+    (entries: IntersectionObserverEntry[]) => {
       const target = entries[0];
-      if (messageInfo.offset === 0) {
-        // NOTE - 아직 초기값도 없다
-        return;
-      }
-      if (messageInfo.offset >= messageInfo.count) {
-        // NOTE - 더이상 불러올 메시지가 없다
-        return;
-      }
-
+      if (messageInfo.offset === 0) return;
+      if (messageInfo.offset >= messageInfo.count) return;
       if (target.isIntersecting && !isLoading) {
-        // NOTE - 끝에 닿았으며, 로딩중이 아닐 때 새 메시지 로드
         handleMoreMessageLoad();
       }
     },
@@ -303,26 +296,17 @@ function RollingPaperPage() {
   }, [handleInitialLoad]);
 
   useEffect(() => {
-    // NOTE - 페이지 이동할 때 deleteMessageIds를 초기화
     return () => {
       setDeleteMessageIds([]);
     };
   }, [location.pathname]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, {
-      threshold: 1, // NOTE - 1px이라도 보이면, 콜백이 실행
-    });
-
+    const observer = new IntersectionObserver(handleObserver, { threshold: 1 });
     const observerTarget = document.getElementById("observer");
-    if (observerTarget) {
-      // NOTE - 관찰 시작
-      observer.observe(observerTarget);
-    }
-
+    if (observerTarget) observer.observe(observerTarget);
     return () => {
-      // NOTE - 관찰 끝
-      observer.unobserve(observerTarget);
+      if (observerTarget) observer.unobserve(observerTarget);
     };
   }, [handleObserver]);
 
@@ -363,7 +347,6 @@ function RollingPaperPage() {
           onCheck={handleCheck}
           deleteMessageIds={deleteMessageIds}
         />
-        {/* // NOTE - 로딩 중 스피너 */}
         {isLoading && <Loading />}
         {loadingError?.message ? <p>{loadingError.message}</p> : ""}
         <ToastContainer />
@@ -372,8 +355,7 @@ function RollingPaperPage() {
   );
 }
 
-// NOTE - 기본 모드에서만 메세지 추가 카드가 보인다.
-function CardList({ isEdit, messages, onCheck, deleteMessageIds }) {
+function CardList({ isEdit, messages, onCheck, deleteMessageIds }: CardListProps) {
   return (
     <>
       <ol className={styles["card-list"]}>

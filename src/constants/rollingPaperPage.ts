@@ -1,3 +1,4 @@
+import { ToastOptions } from "react-toastify";
 import {
   NOTO_SANS,
   PRETENDARD,
@@ -9,23 +10,10 @@ import {
   FAMILY,
 } from "constants/index";
 
-// 타입 정의
 export type PostInfoKey = "messages" | "reactions";
-
-export interface ToastSetting {
-  position: string;
-  autoClose: number;
-  hideProgressBar: boolean;
-  closeOnClick: boolean;
-  pauseOnHover: boolean;
-  draggable: boolean;
-  progress: undefined;
-  theme: string;
-}
 
 export const PC_REACTION_NUM: number = 4;
 export const NON_PC_REACTION_NUM: number = 3;
-
 export const MESSAGE_NUM_DEFAULT: number = 12;
 
 export const MESSAGE = "messages" as const;
@@ -50,7 +38,7 @@ export const FONT_CLASS_NAME: Record<string, string> = {
   [NANUM_HANDLETTER]: "font-nanum-handletter",
 };
 
-export const TOAST_DEFAULT_SETTING: ToastSetting = {
+export const TOAST_DEFAULT_SETTING: ToastOptions = {
   position: "bottom-center",
   autoClose: 5000,
   hideProgressBar: false,

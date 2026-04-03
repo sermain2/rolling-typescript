@@ -7,7 +7,7 @@ import RollingPaperPage from "pages/RollingPaperPage";
 import PostMessagePage from "pages/PostMessagePage";
 import ListPage from "pages/ListPage";
 import AllPostPage from "pages/AllPostPage";
-import CreateRollingPaper from "pages/CreateRollingPaperPage";
+import CreateRollingPaper from "pages/CreateRollingPage";
 import CheckPostIdPage from "pages/CheckPostIdPage";
 
 Modal.setAppElement("#root");
